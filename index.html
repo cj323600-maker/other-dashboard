@@ -4,418 +4,280 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>코오롱오토옥션 일간 보고 대시보드</title>
+<title>코오롱오토옥션 일간 보고</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --ink:#0f1a24; --ink2:#33475b; --muted:#6b7c8c;
-  --line:#dee4ea; --line2:#eef1f4; --canvas:#f1f4f7; --surface:#fff;
-  --ok:#0e7c66; --okbg:#e6f2ef; --warn:#b47800; --warnbg:#fdf3e0;
-  --bad:#c0392b; --badbg:#fbeceb; --base:#1f6feb;
-  --r:10px; --sh:0 1px 2px rgba(15,26,36,.06),0 4px 14px rgba(15,26,36,.05);
-  --sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Malgun Gothic",sans-serif;
+  --ink:#0f1a24; --muted:#6b7c8c; --line:#e3e8ed; --canvas:#f2f4f7; --surface:#fff;
+  --ok:#0e7c66; --warn:#b47800; --bad:#c0392b; --base:#1f6feb;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,"Malgun Gothic",sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{font-family:var(--sans);background:var(--canvas);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
-h2{margin:0;font-weight:700;letter-spacing:-.02em}
-table{border-collapse:collapse;width:100%}
+body{font-family:var(--sans);background:var(--canvas);color:var(--ink);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h2{margin:0;font-size:14px;font-weight:700;letter-spacing:-.02em}
 
-.top{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;border-bottom:3px solid var(--ok)}
-.top-in{max-width:1440px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.brand b{font-size:17px;letter-spacing:-.03em}
-.brand span{font-size:12px;color:#9fb3c4;margin-left:9px}
-.top .right{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:12px;color:#9fb3c4}
-.stamp{font-size:11px;font-weight:700;letter-spacing:.08em;color:#ffb4ac;border:1px solid rgba(255,180,172,.45);padding:3px 8px;border-radius:4px}
+/* 헤더 */
+.top{background:var(--ink);color:#fff;padding:14px 16px;border-bottom:3px solid var(--ok)}
+.top b{font-size:16px;letter-spacing:-.03em}
+.top .m{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:11.5px;color:#9fb3c4}
+.top .m span{margin-left:auto;color:#ffb4ac;border:1px solid rgba(255,180,172,.4);
+  padding:2px 7px;border-radius:4px;font-weight:700;font-size:10.5px}
 
-main{max-width:1440px;margin:0 auto;padding:20px 22px 70px}
-.note{background:#fffdf3;border:1px solid #f0e2b8;border-left:3px solid #d9a800;border-radius:var(--r);
-  padding:10px 14px;font-size:12.5px;color:#6b5600;margin-bottom:18px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 48px}
+@media(min-width:900px){.wrap{max-width:1080px}}
 
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
-@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:620px){.kpis{grid-template-columns:repeat(2,1fr)}}
+/* KPI */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(4,1fr)}}
 .kpi{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--line);
-  border-radius:var(--r);box-shadow:var(--sh);padding:13px 14px}
+  border-radius:10px;padding:11px 12px}
 .kpi.ok{border-top-color:var(--ok)}.kpi.warn{border-top-color:var(--warn)}.kpi.bad{border-top-color:var(--bad)}
-.kpi .k{font-size:11.5px;color:var(--muted);font-weight:600}
-.kpi .v{font-size:25px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:3px 0 1px}
-.kpi .d{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.kpi .k{font-size:11px;color:var(--muted);font-weight:600}
+.kpi .v{font-size:23px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:2px 0 1px}
+.kpi .d{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 .kpi .d em{font-style:normal;font-weight:700}
 .up{color:var(--base)}.down{color:var(--bad)}
 
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:18px;overflow:hidden}
-.card>header{padding:13px 16px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.card>header h2{font-size:14.5px}
-.card>header .sub{font-size:12px;color:var(--muted)}
-.card>header .right{margin-left:auto;font-size:11.5px;color:var(--muted)}
-.card>header .right b{color:var(--base)}
-.num{display:inline-block;width:19px;height:19px;line-height:19px;border-radius:5px;background:var(--ink);
-  color:#fff;font-size:11px;font-weight:800;text-align:center;margin-right:2px}
-.pad{padding:14px 16px}
-.grid{display:grid;gap:18px;margin-bottom:18px}
-.g3{grid-template-columns:.85fr 1.25fr 1fr}
-.g2{grid-template-columns:1.15fr 1fr}
-@media(max-width:1100px){.g3,.g2{grid-template-columns:1fr}}
-.chart{position:relative;height:250px}
-.chart.sm{height:215px}
+/* 카드 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:12px 12px 10px;margin-bottom:14px}
+.card .hd{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
+.card .hd small{font-size:11px;color:var(--muted);margin-left:auto;font-weight:600}
+.chart{position:relative;height:200px}
+.chart.tall{height:230px}
+@media(min-width:900px){.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid>.card{margin-bottom:0}.grid{margin-bottom:14px}}
 
-.tw{overflow-x:auto}
-table.t{font-size:12.8px;min-width:760px}
-table.t th,table.t td{border-bottom:1px solid var(--line2);padding:7px 9px;text-align:right;
-  font-variant-numeric:tabular-nums;white-space:nowrap}
-table.t thead th{background:#f7f9fb;color:var(--ink2);font-weight:700;font-size:11.5px;text-align:center;border-bottom:1px solid var(--line)}
-table.t th.l,table.t td.l{text-align:left;white-space:normal}
-table.t td.c,table.t th.c{text-align:center}
-table.t td.grp{background:#fafbfc;font-weight:700;text-align:center;border-right:1px solid var(--line2);color:var(--ink2)}
-table.t tr.sub td{background:#f6f8fa;font-weight:700}
-table.t tr.tot td{background:#edf1f5;font-weight:800;border-top:1px solid var(--line)}
-table.t tbody tr:hover td:not(.grp){background:#f4f9ff}
-td.ins{white-space:normal;min-width:215px;text-align:left;font-weight:600}
-td.ins.d{color:var(--bad)} td.ins.u{color:var(--base)}
-td.ins:empty::after{content:"—";color:var(--line);font-weight:400}
-.hint{font-size:11.5px;color:var(--muted)}
+/* 표 */
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 4px;text-align:right;border-bottom:1px solid #f0f3f5;white-space:nowrap}
+thead th{font-size:10.5px;color:var(--muted);font-weight:700;border-bottom:1px solid var(--line);text-align:right}
+th.l,td.l{text-align:left;padding-left:0}
+tr.sub td{background:#f7f9fb;font-weight:700}
+tr.tot td{background:#eef2f5;font-weight:800}
+td.l small{display:block;font-size:10px;color:var(--muted);font-weight:400}
+.pill{display:inline-block;min-width:52px;padding:2px 7px;border-radius:5px;
+  font-size:11.5px;font-weight:700;text-align:center}
+.pill.ok{background:#e6f2ef;color:var(--ok)}
+.pill.warn{background:#fdf3e0;color:var(--warn)}
+.pill.bad{background:#fbeceb;color:var(--bad)}
 .dash{color:#c3cbd3}
-
-.bg{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11.5px;font-weight:700}
-.bg.ok{background:var(--okbg);color:var(--ok)}
-.bg.warn{background:var(--warnbg);color:var(--warn)}
-.bg.bad{background:var(--badbg);color:var(--bad)}
-.barwrap{display:flex;align-items:center;gap:8px;justify-content:flex-end}
-.bar{position:relative;height:16px;width:120px;background:#eef1f4;border-radius:3px;overflow:hidden}
-.bar i{position:absolute;left:0;top:0;bottom:0;display:block;border-radius:3px}
-.bar i.ok{background:var(--ok)}.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}
-.bar u{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--base);text-decoration:none}
-.barwrap b{font-weight:700;min-width:48px;text-align:right}
-
-.foot{font-size:12px;color:var(--muted);line-height:1.85}
-@media print{.top{position:static}.card{break-inside:avoid;box-shadow:none}body{background:#fff}}
+.note{font-size:11px;color:var(--muted);line-height:1.7;margin:8px 0 0}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="top-in">
-    <div class="brand"><b>코오롱오토옥션 일간 보고</b><span>전략기획팀</span></div>
-    <div class="right"><span id="hdr-meta"></span><span class="stamp">대외비</span></div>
-  </div>
-</header>
+<div class="top">
+  <b>코오롱오토옥션 일간 보고</b>
+  <div class="m"><span id="hd"></span></div>
+  <div class="m" id="hd2"></div>
+</div>
 
-<main>
-  <div class="note" id="note"></div>
+<div class="wrap">
   <div class="kpis" id="kpis"></div>
 
-  <div class="grid g3">
-    <section class="card"><header><h2>매입ㆍ유도 달성률</h2><span class="sub">월 누적 ÷ 월 목표</span></header>
-      <div class="pad"><div class="chart" id="ch-gauge"></div></div></section>
-    <section class="card"><header><h2>항목별 달성률</h2><span class="right">점선 = 예상 진도율 기준선</span></header>
-      <div class="pad"><div class="chart" id="ch-ach"></div></div></section>
-    <section class="card"><header><h2>경매장 입고 퍼널</h2><span class="sub">매입ㆍ유도 → 입고 → 성능 → 등록 → 노출</span></header>
-      <div class="pad"><div class="chart" id="ch-funnel"></div></div></section>
+  <div class="grid">
+    <div class="card">
+      <div class="hd"><h2>항목별 달성률</h2><small id="lg1"></small></div>
+      <div class="chart" id="c1"></div>
+    </div>
+    <div class="card">
+      <div class="hd"><h2>경매장 입고 퍼널</h2><small>단위: 대</small></div>
+      <div class="chart" id="c2"></div>
+    </div>
   </div>
 
-  <section class="card">
-    <header><h2><span class="num">1</span> 매입ㆍ유도 대수</h2><span class="sub">자사 매입 · 출품 유도</span>
-      <span class="right" id="u1"></span></header>
-    <div class="tw"><table class="t" id="t-purchase"></table></div>
-  </section>
+  <div class="card">
+    <div class="hd"><h2>정산 · 반출 진행률</h2><small id="lg3"></small></div>
+    <div class="chart tall" id="c3"></div>
+  </div>
 
-  <section class="card">
-    <header><h2><span class="num">2</span> 경매장 입고현황</h2>
-      <span class="sub">당일 기준 · 성능ㆍ등록ㆍ노출은 단계별 재고 대수</span>
-      <span class="right">단위: 대 · 입고율 = 입고 ÷ 매입ㆍ유도</span></header>
-    <div class="tw"><table class="t" id="t-inbound"></table></div>
-    <div class="pad"><div class="chart sm" id="ch-inb"></div></div>
-  </section>
+  <div class="card">
+    <div class="hd"><h2>① 매입 · 유도 대수</h2><small>단위: 대</small></div>
+    <table id="t1"></table>
+  </div>
 
-  <section class="card">
-    <header><h2><span class="num">3</span> 경매 처리</h2><span class="sub" id="auc-sub"></span>
-      <span class="right" id="auc-issue"></span></header>
-    <div class="grid g2 pad" style="margin-bottom:0">
-      <div>
-        <div class="tw"><table class="t" id="t-auction" style="min-width:560px"></table></div>
-        <p class="hint" style="margin:10px 0 0" id="auc-note"></p>
-      </div>
-      <div class="chart" id="ch-auc"></div>
-    </div>
-  </section>
+  <div class="card">
+    <div class="hd"><h2>② 경매장 입고현황</h2><small>단위: 대</small></div>
+    <table id="t2"></table>
+    <p class="note">성능 · 등록 · 노출은 단계별 재고 대수입니다.</p>
+  </div>
 
-  <section class="card"><div class="pad foot"><ul style="margin:0;padding-left:18px" id="foot"></ul></div></section>
-</main>
+  <div class="card">
+    <div class="hd"><h2>③ 경매 처리</h2><small id="lg4"></small></div>
+    <table id="t3"></table>
+    <p class="note" id="n3"></p>
+  </div>
+
+  <p class="note" id="foot"></p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script>
-/* ══════════════════════════════════════════════════════════════════
-   ▼ 매일 여기만 수정하면 화면 전체가 갱신됩니다.
-     출처: 20260824_코오롱오토옥션_일보주보_개편안_최종본_양식.xlsx
-           '일간 보고' 시트 (B6:K10 / B13:L17 / B20:L23)
-     ※ null 은 엑셀의 '-' (미입력) 을 뜻합니다.
-   ══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   ▼ 매일 여기만 수정 (엑셀 '일간 보고' 시트 값)
+     null = 엑셀의 '-' (미입력)
+   ═══════════════════════════════════════════════════════════ */
 const DATA = {
-  meta: {
-    date: "2026-08-24",
-    owner: "전략기획팀",
-    businessDaysTotal: 20,   // 총 영업일  (엑셀 J2)
-    businessDaysDone: 14,    // 경과 영업일 (엑셀 J3)
-    inputRule: "입력: 각 팀 당일 18:00 → 취합ㆍ게시: 전략기획팀",
-    notice: "본 화면의 수치는 업로드한 일보ㆍ주보 양식의 예시값입니다. 실제 보고 시 ERPㆍ경매 시스템 확정치로 교체하십시오."
-  },
+  date: "2026-08-24",
+  bizTotal: 20,   // 총 영업일
+  bizDone: 14,    // 경과 영업일
 
-  /* ① 매입ㆍ유도 대수 */
+  // ① 매입 · 유도 대수
   purchase: [
-    { group:"자사 매입", team:"법인 영업 (자체+잔가+소매위탁)", owner:"김지훈", target:125, today:null, mtd:44   },
-    { group:"자사 매입", team:"플랫폼 매입",                     owner:"조성익", target:200, today:11,   mtd:135  },
-    { group:"출품 유도", team:"법인 영업 (제휴+협력점)",         owner:"김지훈", target:915, today:null, mtd:1191 }
+    { g:"자사 매입", short:"자사·법인", name:"법인영업", desc:"자체+잔가+소매위탁", owner:"김지훈", target:125, today:null, mtd:44   },
+    { g:"자사 매입", short:"자사·플랫폼", name:"플랫폼매입", desc:"매입 출품",        owner:"조성익", target:200, today:11,   mtd:135  },
+    { g:"출품 유도", short:"유도·법인", name:"법인영업", desc:"제휴+협력점",         owner:"김지훈", target:915, today:null, mtd:1191 }
   ],
 
-  /* ② 경매장 입고현황 */
+  // ② 경매장 입고현황
   inbound: [
-    { team:"법인영업팀 (자체+잔가+소매위탁+출품 유도)", owner:"김지훈/정경태", secured:null, inbound:17, perf:69, reg:358, expose:265, issue:"" },
-    { team:"플랫폼매입팀 (매입 출품)",                   owner:"조성익/정경태", secured:57,   inbound:46, perf:46, reg:12,  expose:11,  issue:"11대 금일 매입" },
-    { team:"출품영업팀 (출품전문점 및 전문인)",          owner:"정경태",        secured:65,   inbound:37, perf:86, reg:623, expose:637, issue:"" },
-    { team:"경매운영팀 (FC+기타)",                       owner:"정경태",        secured:76,   inbound:32, perf:75, reg:338, expose:403, issue:"" }
+    { name:"법인영업", desc:"자체+잔가+위탁+유도", secured:null, inb:17, perf:69, reg:358, exp:265 },
+    { name:"플랫폼매입", desc:"매입 출품",          secured:57,   inb:46, perf:46, reg:12,  exp:11  },
+    { name:"출품영업", desc:"출품전문점·전문인",    secured:65,   inb:37, perf:86, reg:623, exp:637 },
+    { name:"경매운영", desc:"FC+기타",              secured:76,   inb:32, perf:75, reg:338, exp:403 }
   ],
 
-  /* ③ 경매 처리 */
+  // ③ 경매 처리
   auction: {
-    auctionDate:"2026-08-19", won:807, owner:"남윤정",
-    labels:["경매일 (D-Day)","D+1","D+2","D+3","D+4"],
-    settle : [409,207,133,null,null],
-    release: [202,294,165,null,null],
-    issue:"경매일 2026-08-19 기준 / 낙찰대수 807대"
+    date:"2026-08-19", won:807,
+    settle : [409,207,133,null,null],   // D-Day ~ D+4
+    release: [202,294,165,null,null]
   }
 };
 
-/* ══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════ */
 (function(){
-const M = DATA.meta, EX = M.businessDaysDone / M.businessDaysTotal;
-const P = DATA.purchase, I = DATA.inbound, A = DATA.auction;
+const D=DATA, EX=D.bizDone/D.bizTotal, P=D.purchase, I=D.inbound, A=D.auction;
+const nz=v=>v==null?0:v, ko=v=>Math.round(v).toLocaleString('ko-KR');
+const n=v=>v==null?'<span class="dash">-</span>':ko(v);
+const f1=(v)=>v.toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const pc=x=>isFinite(x)?f1(x*100)+'%':'-';
+const pp=x=>isFinite(x)?(x>=0?'+':'−')+f1(Math.abs(x)*100)+'%p':'-';
+const gr=r=>!isFinite(r)?'warn':r>=1?'ok':r>=.9?'warn':'bad';
+const pill=r=>'<span class="pill '+gr(r)+'">'+pc(r)+'</span>';
+const sum=(a,k)=>a.reduce((s,r)=>s+nz(r[k]),0);
+const sumN=(a,k)=>a.every(r=>r[k]==null)?null:sum(a,k);   // 전부 미입력이면 '-'
+const own=P.filter(r=>r.g==="자사 매입"), ind=P.filter(r=>r.g==="출품 유도");
+const T={target:sum(P,'target'),today:sum(P,'today'),mtd:sum(P,'mtd')};
+const IT={secured:sum(I,'secured'),inb:sum(I,'inb'),perf:sum(I,'perf'),reg:sum(I,'reg'),exp:sum(I,'exp')};
+const cum=a=>{let s=0;return a.map(v=>v==null?null:(s+=v));};
+const lastV=a=>{for(let i=a.length-1;i>=0;i--)if(a[i]!=null)return a[i];return 0;};
+const sC=cum(A.settle), rC=cum(A.release), sT=lastV(sC), rT2=lastV(rC);
+const rT=T.mtd/T.target, rO=sum(own,'mtd')/sum(own,'target'), rI=sum(ind,'mtd')/sum(ind,'target');
 
-/* ── 포맷ㆍ판정 ────────────────────────────────────────── */
-const nz  = v => (v===null||v===undefined) ? 0 : v;
-const ko  = v => Math.round(v).toLocaleString('ko-KR');
-const n   = v => (v===null||v===undefined) ? '<span class="dash">-</span>' : ko(v);
-const d1  = (v,d) => v.toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d});
-const pct = (x,d) => (!isFinite(x)) ? '<span class="dash">-</span>' : d1(x*100, d===undefined?1:d)+'%';
-const pp  = x => !isFinite(x) ? '-' : (x>=0?'+':'−') + d1(Math.abs(x)*100,1)+'%p';
-const grade = r => !isFinite(r) ? 'warn' : r>=1 ? 'ok' : r>=0.9 ? 'warn' : 'bad';
-const badge = r => { const g=grade(r); return `<span class="bg ${g}">${({ok:'달성',warn:'주의',bad:'미달'})[g]}</span>`; };
-const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const SCALE = 1.4;   // 달성률 바 최대 표시 배율 (130%대 값이 잘리지 않도록)
-const bar = r => {
-  const g = grade(r), w = Math.max(0, Math.min(SCALE, r||0))/SCALE*100;
-  return '<div class="barwrap"><div class="bar"><i class="'+g+'" style="width:'+w+'%"></i>'
-       + '<u style="left:'+(EX/SCALE*100)+'%" title="예상 진도율 '+d1(EX*100,1)+'%"></u></div>'
-       + '<b>'+pct(r)+'</b></div>';
-};
-/* ±10%p 이탈 시 원인 필수 (양식 규칙) */
-const insight = r => {
-  const gap = r.mtd/r.target - EX;
-  if (gap <= -0.10) return { cls:'d', txt:'예상 대비 '+d1(Math.abs(gap)*100,1)+'%p 뒤처짐 — 원인ㆍ대안 기재 필수' };
-  if (gap >=  0.10) return { cls:'u', txt:'예상 대비 '+d1(gap*100,1)+'%p 앞섬 — 입고ㆍ성능 처리 리드타임 점검' };
-  return { cls:'', txt:'' };
-};
+/* 헤더 */
+document.getElementById('hd').textContent = '보고일 '+D.date+' · 영업일 '+D.bizDone+'/'+D.bizTotal+'일';
+document.getElementById('hd2').innerHTML = '<span>대외비</span>';
+document.getElementById('lg1').textContent = '점선 = 진도율 '+pc(EX);
+document.getElementById('lg3').textContent = '낙찰 '+ko(A.won)+'대 대비';
+document.getElementById('lg4').textContent = '경매일 '+A.date;
 
-/* ── 집계 ──────────────────────────────────────────────── */
-const sum = (a,k) => a.reduce((s,r)=>s+nz(r[k]),0);
-const own = P.filter(r=>r.group==="자사 매입"), ind = P.filter(r=>r.group==="출품 유도");
-const T  = { target:sum(P,'target'), today:sum(P,'today'), mtd:sum(P,'mtd') };
-const IT = { secured:sum(I,'secured'), inbound:sum(I,'inbound'), perf:sum(I,'perf'), reg:sum(I,'reg'), expose:sum(I,'expose') };
-const cum  = a => { let s=0; return a.map(v=> v===null ? null : (s+=v)); };
-const last = a => { for(let i=a.length-1;i>=0;i--) if(a[i]!==null) return a[i]; return 0; };
-const sC = cum(A.settle), rC = cum(A.release);
-const settleTot = last(sC), releaseTot = last(rC);
-const rT = T.mtd/T.target, rOwn = sum(own,'mtd')/sum(own,'target'), rInd = sum(ind,'mtd')/sum(ind,'target');
-
-document.getElementById('hdr-meta').textContent = M.date + ' 기준 · 영업일 ' + M.businessDaysDone + '/' + M.businessDaysTotal + '일';
-document.getElementById('note').textContent = M.notice;
-document.getElementById('u1').innerHTML = '단위: 대 · 달성률 바의 <b>│</b> = 예상 진도율 ' + d1(EX*100,1) + '%';
-
-/* ── KPI ───────────────────────────────────────────────── */
-const kpi = (k,v,dsc,r) => '<div class="kpi '+(r===undefined?'':grade(r))+'"><div class="k">'+k+'</div>'
-  + '<div class="v">'+v+'</div><div class="d">'+dsc+'</div></div>';
-const gapTag = r => '<em class="'+(r-EX>=0?'up':'down')+'">'+pp(r-EX)+'</em> 예상 대비';
+/* KPI */
+const kpi=(k,v,d,r)=>'<div class="kpi '+(r===undefined?'':gr(r))+'"><div class="k">'+k+'</div>'
+  +'<div class="v">'+v+'</div><div class="d">'+d+'</div></div>';
+const tag=r=>'<em class="'+(r-EX>=0?'up':'down')+'">'+pp(r-EX)+'</em> 진도율 대비';
 document.getElementById('kpis').innerHTML =
-    kpi('예상 진도율 (월)', d1(EX*100,1)+'%', '영업일 <em>'+M.businessDaysDone+'</em> / '+M.businessDaysTotal+'일')
-  + kpi('매입ㆍ유도 월 누적', ko(T.mtd)+'대', gapTag(rT), rT)
-  + kpi('자사 매입', ko(sum(own,'mtd'))+'대', '목표 '+ko(sum(own,'target'))+'대 · '+gapTag(rOwn), rOwn)
-  + kpi('출품 유도', ko(sum(ind,'mtd'))+'대', '목표 '+ko(sum(ind,'target'))+'대 · '+gapTag(rInd), rInd)
-  + kpi('당일 입고', ko(IT.inbound)+'대', '확보 <em>'+ko(IT.secured)+'</em>대 · 입고율 '+d1(IT.inbound/IT.secured*100,1)+'%');
+   kpi('매입·유도 누적', ko(T.mtd)+'대', tag(rT), rT)
+ + kpi('자사 매입', ko(sum(own,'mtd'))+'대', tag(rO), rO)
+ + kpi('출품 유도', ko(sum(ind,'mtd'))+'대', tag(rI), rI)
+ + kpi('경매장 입고', ko(IT.inb)+'대', '입고율 <em>'+pc(IT.inb/IT.secured)+'</em>');
 
-/* ── ① 매입ㆍ유도 대수 ─────────────────────────────────── */
-let body = '';
-[['자사 매입', own], ['출품 유도', ind]].forEach(function(pair){
-  const g = pair[0], rs = pair[1], showSub = rs.length > 1;
-  rs.forEach(function(r,i){
-    const rt = r.mtd/r.target, gap = rt-EX, ins = insight(r);
-    body += '<tr>'
-      + (i===0 ? '<td class="grp" rowspan="'+(rs.length+(showSub?1:0))+'">'+esc(g)+'</td>' : '')
-      + '<td class="l">'+esc(r.team)+'</td><td class="c">'+esc(r.owner)+'</td>'
-      + '<td>'+n(r.target)+'</td><td>'+n(r.today)+'</td><td>'+n(r.mtd)+'</td>'
-      + '<td>'+bar(rt)+'</td><td class="'+(gap>=0?'up':'down')+'">'+pp(gap)+'</td>'
-      + '<td class="c">'+badge(rt)+'</td>'
-      + '<td class="ins '+ins.cls+'">'+esc(ins.txt)+'</td></tr>';
-  });
-  if (showSub) {
-    const s = { target:sum(rs,'target'), today:sum(rs,'today'), mtd:sum(rs,'mtd') }, rt = s.mtd/s.target, ins = insight(s);
-    body += '<tr class="sub"><td class="l">소 계</td><td class="c">-</td>'
-      + '<td>'+n(s.target)+'</td><td>'+n(s.today)+'</td><td>'+n(s.mtd)+'</td>'
-      + '<td>'+bar(rt)+'</td><td class="'+(rt-EX>=0?'up':'down')+'">'+pp(rt-EX)+'</td>'
-      + '<td class="c">'+badge(rt)+'</td><td class="ins '+ins.cls+'">'+esc(ins.txt)+'</td></tr>';
-  }
-});
-const tIns = insight(T);
-body += '<tr class="tot"><td class="grp">총 계</td><td class="l"></td><td class="c">-</td>'
-  + '<td>'+n(T.target)+'</td><td>'+n(T.today)+'</td><td>'+n(T.mtd)+'</td>'
-  + '<td>'+bar(rT)+'</td><td class="'+(rT-EX>=0?'up':'down')+'">'+pp(rT-EX)+'</td>'
-  + '<td class="c">'+badge(rT)+'</td><td class="ins '+tIns.cls+'">'+esc(tIns.txt)+'</td></tr>';
+/* ── 표 ① ─────────────────────────────────────── */
+let b='';
+const row=(r,cls)=>'<tr'+(cls?' class="'+cls+'"':'')+'><td class="l">'+r.label
+  +(r.desc?'<small>'+r.desc+'</small>':'')+'</td>'
+  +'<td>'+n(r.target)+'</td><td>'+n(r.today)+'</td><td>'+n(r.mtd)+'</td>'
+  +'<td>'+pill(r.mtd/r.target)+'</td></tr>';
+own.forEach(r=>b+=row({label:r.name,desc:r.desc,target:r.target,today:r.today,mtd:r.mtd}));
+b+=row({label:'자사 매입 소계',target:sum(own,'target'),today:sumN(own,'today'),mtd:sum(own,'mtd')},'sub');
+ind.forEach(r=>b+=row({label:r.name,desc:r.desc,target:r.target,today:r.today,mtd:r.mtd}));
+b+=row({label:'출품 유도 소계',target:sum(ind,'target'),today:sumN(ind,'today'),mtd:sum(ind,'mtd')},'sub');
+b+=row({label:'총 계',target:T.target,today:T.today,mtd:T.mtd},'tot');
+document.getElementById('t1').innerHTML=
+ '<thead><tr><th class="l">구분</th><th>목표</th><th>당일</th><th>누적</th><th>달성률</th></tr></thead><tbody>'+b+'</tbody>';
 
-document.getElementById('t-purchase').innerHTML =
-  '<thead><tr><th class="l" colspan="2">구분</th><th>담당자</th><th>목표</th><th>당일 실적</th><th>월 누적</th>'
-  + '<th style="min-width:185px">달성률 (%)</th><th>예상 대비 (%p)</th><th>상태</th>'
-  + '<th class="l">인사이트 (±10%p 이탈 시 원인 필수)</th></tr></thead><tbody>'+body+'</tbody>';
+/* ── 표 ② ─────────────────────────────────────── */
+let b2=I.map(r=>'<tr><td class="l">'+r.name+'<small>'+r.desc+'</small></td>'
+  +'<td>'+n(r.secured)+'</td><td>'+n(r.inb)+'</td><td>'+n(r.perf)+'</td>'
+  +'<td>'+n(r.reg)+'</td><td>'+n(r.exp)+'</td></tr>').join('');
+b2+='<tr class="tot"><td class="l">총 계</td><td>'+n(IT.secured)+'</td><td>'+n(IT.inb)
+  +'</td><td>'+n(IT.perf)+'</td><td>'+n(IT.reg)+'</td><td>'+n(IT.exp)+'</td></tr>';
+document.getElementById('t2').innerHTML=
+ '<thead><tr><th class="l">팀</th><th>매입·유도</th><th>입고</th><th>성능</th><th>등록</th><th>노출</th></tr></thead><tbody>'+b2+'</tbody>';
 
-/* ── ② 경매장 입고현황 ─────────────────────────────────── */
-const inbRows = I.map(function(r){
-  return '<tr><td class="l">'+esc(r.team)+'</td><td class="c">'+esc(r.owner)+'</td>'
-    + '<td>'+n(r.secured)+'</td>'
-    + '<td>'+n(r.inbound)+' <span class="hint">('+(r.secured?d1(r.inbound/r.secured*100,1)+'%':'-')+')</span></td>'
-    + '<td>'+n(r.perf)+'</td><td>'+n(r.reg)+'</td><td>'+n(r.expose)+'</td>'
-    + '<td class="ins d">'+esc(r.issue)+'</td></tr>';
-}).join('');
-document.getElementById('t-inbound').innerHTML =
-  '<thead><tr><th class="l">구분</th><th>담당자</th><th>매입ㆍ유도 대수</th><th>입고 대수 (입고율)</th>'
-  + '<th>성능 대수</th><th>등록 대수</th><th>노출 대수</th><th class="l">이슈 사항</th></tr></thead><tbody>'
-  + inbRows
-  + '<tr class="tot"><td class="l">총 계</td><td class="c">-</td><td>'+n(IT.secured)+'</td>'
-  + '<td>'+n(IT.inbound)+' <span class="hint">('+d1(IT.inbound/IT.secured*100,1)+'%)</span></td>'
-  + '<td>'+n(IT.perf)+'</td><td>'+n(IT.reg)+'</td><td>'+n(IT.expose)+'</td><td class="ins"></td></tr></tbody>';
+/* ── 표 ③ ─────────────────────────────────────── */
+const L=['D-Day','D+1','D+2','D+3','D+4'];
+const prow=(nm,arr,c)=>'<tr><td class="l">'+nm+'</td>'+arr.map(v=>'<td>'+n(v)+'</td>').join('')
+  +'<td><b>'+ko(lastV(c))+'</b></td></tr>'
+  +'<tr class="sub"><td class="l">'+nm+'률</td>'+c.map(v=>'<td>'+(v==null?'<span class="dash">-</span>':f1(v/A.won*100)+'%')+'</td>').join('')
+  +'<td>'+f1(lastV(c)/A.won*100)+'%</td></tr>';
+document.getElementById('t3').innerHTML=
+ '<thead><tr><th class="l">구분</th>'+L.map(l=>'<th>'+l+'</th>').join('')+'<th>누적</th></tr></thead><tbody>'
+ +prow('정산',A.settle,sC)+prow('반출',A.release,rC)+'</tbody>';
+document.getElementById('n3').textContent =
+ '낙찰 '+ko(A.won)+'대 기준 누적 · 미정산 '+ko(A.won-sT)+'대 · 미반출 '+ko(A.won-rT2)+'대';
 
-/* ── ③ 경매 처리 ───────────────────────────────────────── */
-const procRows = function(name, arr, cumArr){
-  return '<tr><td class="grp" rowspan="2">'+name+'</td><td class="l">'+name+' 대수</td>'
-    + arr.map(function(v){ return '<td>'+n(v)+'</td>'; }).join('')
-    + '<td><b>'+n(last(cumArr))+'</b></td></tr>'
-    + '<tr class="sub"><td class="l">'+name+'률 (누적)</td>'
-    + cumArr.map(function(v){ return '<td>'+(v===null?'<span class="dash">-</span>':d1(v/A.won*100,1)+'%')+'</td>'; }).join('')
-    + '<td>'+d1(last(cumArr)/A.won*100,1)+'%</td></tr>';
-};
-document.getElementById('t-auction').innerHTML =
-  '<thead><tr><th class="l" colspan="2">구분</th>'
-  + A.labels.map(function(l){ return '<th>'+l+'</th>'; }).join('') + '<th>누적</th></tr></thead><tbody>'
-  + procRows('정산', A.settle, sC) + procRows('반출', A.release, rC) + '</tbody>';
-document.getElementById('auc-sub').textContent =
-  '경매일 ' + A.auctionDate + ' · 낙찰 ' + ko(A.won) + '대 · 담당 ' + A.owner;
-document.getElementById('auc-issue').textContent =
-  '미정산 ' + ko(A.won-settleTot) + '대 · 미반출 ' + ko(A.won-releaseTot) + '대';
-document.getElementById('auc-note').textContent =
-  '정산률ㆍ반출률 = 해당 시점 누적 ÷ 낙찰 대수(' + ko(A.won) + '대) · 미입력(-) 구간은 누적에서 제외';
+document.getElementById('foot').innerHTML =
+ '달성률 = 월 누적 ÷ 월 목표 · 진도율 대비 = 달성률 − 예상 진도율('+pc(EX)+')<br>'
++'판정: 달성 ≥ 100% · 주의 ≥ 90% · 미달 &lt; 90% · 수치는 업로드 양식의 예시값';
 
-/* ── 각주 ──────────────────────────────────────────────── */
-document.getElementById('foot').innerHTML = [
-  M.inputRule,
-  '달성률 = 월 누적 ÷ 월 목표 · 예상 대비 = 달성률 − 예상 진도율(' + d1(EX*100,1) + '%) · ±10%p 이탈 시 인사이트에 원인 기재 필수',
-  '판정 기준: 달성 ≥ 100% · 주의 ≥ 90% · 미달 &lt; 90%',
-  '당일 매입ㆍ유도 실적과 경매장 입고현황의 매입ㆍ유도 대수는 집계 범위가 같아야 함 — 현재 양식은 미입력(-) 항목이 있어 총계가 다름',
-  '엑셀 원본의 K21 셀은 <code>=IFERROR(K20/F23,0)</code> 로 참조 셀이 잘못돼 있습니다 (정상: <code>N23</code>). 본 화면은 낙찰 대수 기준으로 재계산했습니다.'
-].map(function(t){ return '<li>'+t+'</li>'; }).join('');
+/* ═══════════════ CHARTS ═══════════════ */
+const C={ink:'#0f1a24',ok:'#0e7c66',warn:'#b47800',bad:'#c0392b',base:'#1f6feb',muted:'#6b7c8c',line:'#e3e8ed',vio:'#7a5bb5'};
+Chart.defaults.font.family='"Pretendard Variable",Pretendard,system-ui,sans-serif';
+Chart.defaults.font.size=10.5;
+Chart.defaults.color=C.muted;
+Chart.defaults.maintainAspectRatio=false;
+Chart.defaults.plugins.legend.labels.boxWidth=9;
+Chart.defaults.plugins.legend.labels.boxHeight=9;
+const cv=id=>{const h=document.getElementById(id);h.innerHTML='<canvas></canvas>';return h.querySelector('canvas');};
+const gc=r=>({ok:C.ok,warn:C.warn,bad:C.bad})[gr(r)];
 
-/* ══════════════════════════════════════════════════════════
-   CHARTS
-   ══════════════════════════════════════════════════════════ */
-const C = { ink:'#0f1a24', ok:'#0e7c66', warn:'#b47800', bad:'#c0392b', base:'#1f6feb', muted:'#6b7c8c', line:'#dee4ea', vio:'#7a5bb5' };
-Chart.defaults.font.family = '"Pretendard Variable",Pretendard,system-ui,sans-serif';
-Chart.defaults.font.size = 11;
-Chart.defaults.color = C.muted;
-Chart.defaults.maintainAspectRatio = false;
-Chart.defaults.plugins.legend.labels.boxWidth = 10;
-Chart.defaults.plugins.legend.labels.boxHeight = 10;
-const cv = function(id){ const h=document.getElementById(id); h.innerHTML='<canvas></canvas>'; return h.querySelector('canvas'); };
-const short = function(t){ return t.split(' ')[0].replace('팀',''); };
-const gc = function(r){ return ({ok:C.ok,warn:C.warn,bad:C.bad})[grade(r)]; };
-
-/* 게이지 */
-const gv = Math.max(0, Math.min(SCALE, rT));
-new Chart(cv('ch-gauge'), {
-  type:'doughnut',
-  data:{ datasets:[{ data:[gv, Math.max(0, SCALE-gv)], backgroundColor:[gc(rT), '#eef1f4'],
-    borderWidth:0, circumference:270, rotation:225, cutout:'73%' }] },
-  options:{ plugins:{ legend:{display:false}, tooltip:{enabled:false} } },
-  plugins:[{ id:'gtext', afterDraw:function(ch){
-    const ctx=ch.ctx, a=ch.chartArea, x=(a.left+a.right)/2, y=(a.top+a.bottom)/2+6;
-    ctx.save(); ctx.textAlign='center';
-    ctx.fillStyle=C.ink; ctx.font='800 34px Pretendard'; ctx.fillText(d1(rT*100,1)+'%', x, y);
-    ctx.fillStyle=C.muted; ctx.font='600 11px Pretendard';
-    ctx.fillText('목표 '+ko(T.target)+'대 · 누적 '+ko(T.mtd)+'대', x, y+21);
-    ctx.fillStyle = rT-EX>=0 ? C.base : C.bad; ctx.font='700 11px Pretendard';
-    ctx.fillText('예상 진도율 '+d1(EX*100,1)+'% · '+pp(rT-EX), x, y+39);
-    ctx.restore();
-  }}]
-});
-
-/* 항목별 달성률 */
-const achRows = P.concat([{ group:'', team:'총 계', target:T.target, mtd:T.mtd }]);
-new Chart(cv('ch-ach'), {
+/* 1. 항목별 달성률 (가로 막대 + 진도율 점선) */
+const rows=P.map(r=>({l:r.short,v:r.mtd/r.target})).concat([{l:'총 계',v:rT}]);
+new Chart(cv('c1'),{
   type:'bar',
-  data:{ labels: achRows.map(function(r){ return r.team==='총 계' ? '총 계'
-          : (r.group==='자사 매입'?'자사·':'유도·') + r.team.split(' ')[0]; }),
-    datasets:[{ label:'달성률', borderRadius:3,
-      data: achRows.map(function(r){ return +(r.mtd/r.target*100).toFixed(1); }),
-      backgroundColor: achRows.map(function(r){ return gc(r.mtd/r.target); }) }] },
-  options:{ plugins:{ legend:{display:false},
-      tooltip:{ callbacks:{ afterLabel:function(c){ return '예상 대비 '+pp(c.parsed.y/100-EX); } } } },
-    scales:{ y:{ beginAtZero:true, ticks:{ callback:function(v){ return v+'%'; } }, grid:{color:C.line} },
-             x:{ grid:{display:false} } } },
-  plugins:[{ id:'baseline', afterDraw:function(ch){
-    const y=ch.scales.y.getPixelForValue(EX*100), a=ch.chartArea, x=ch.ctx;
-    x.save(); x.strokeStyle=C.base; x.lineWidth=1.5; x.setLineDash([5,4]);
-    x.beginPath(); x.moveTo(a.left,y); x.lineTo(a.right,y); x.stroke(); x.setLineDash([]);
-    x.fillStyle=C.base; x.font='700 10px Pretendard'; x.textAlign='right';
-    x.fillText('예상 진도율 '+d1(EX*100,1)+'%', a.right-2, y-5); x.restore();
-  }}]
+  data:{labels:rows.map(r=>r.l),datasets:[{data:rows.map(r=>+(r.v*100).toFixed(1)),
+    backgroundColor:rows.map(r=>gc(r.v)),borderRadius:3,barPercentage:.7}]},
+  options:{indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>'달성률 '+c.parsed.x+'% ('+pp(c.parsed.x/100-EX)+')'}}},
+    scales:{x:{beginAtZero:true,ticks:{callback:v=>v+'%'},grid:{color:C.line}},
+            y:{grid:{display:false}}}},
+  plugins:[{id:'bl',afterDraw(ch){
+    const x=ch.scales.x.getPixelForValue(EX*100),a=ch.chartArea,c=ch.ctx;
+    c.save();c.strokeStyle=C.base;c.lineWidth=1.5;c.setLineDash([4,3]);
+    c.beginPath();c.moveTo(x,a.top);c.lineTo(x,a.bottom);c.stroke();c.setLineDash([]);
+    c.fillStyle=C.base;c.font='700 9.5px Pretendard';c.textAlign='center';
+    c.fillText(f1(EX*100)+'%',x,a.top-3);c.restore();}}]
 });
 
-/* 입고 퍼널 */
-new Chart(cv('ch-funnel'), {
+/* 2. 입고 퍼널 */
+new Chart(cv('c2'),{
   type:'bar',
-  data:{ labels:['매입ㆍ유도','입고','성능','등록','노출'],
-    datasets:[{ data:[IT.secured,IT.inbound,IT.perf,IT.reg,IT.expose], borderRadius:3,
-      backgroundColor:[C.ink,C.ok,C.base,C.vio,C.muted] }] },
-  options:{ indexAxis:'y',
-    plugins:{ legend:{display:false},
-      title:{ display:true, text:'총계 기준 (대) · 성능ㆍ등록ㆍ노출은 재고 대수', color:C.muted, align:'start' },
-      tooltip:{ callbacks:{ label:function(c){ return ko(c.parsed.x)+'대'; } } } },
-    scales:{ x:{ beginAtZero:true, grid:{color:C.line} }, y:{ grid:{display:false} } } }
+  data:{labels:['매입·유도','입고','성능','등록','노출'],
+    datasets:[{data:[IT.secured,IT.inb,IT.perf,IT.reg,IT.exp],
+      backgroundColor:[C.ink,C.ok,C.base,C.vio,C.muted],borderRadius:3,barPercentage:.7}]},
+  options:{indexAxis:'y',
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>ko(c.parsed.x)+'대'}}},
+    scales:{x:{beginAtZero:true,grid:{color:C.line}},y:{grid:{display:false}}}}
 });
 
-/* 팀별 확보 → 입고 → 성능 */
-new Chart(cv('ch-inb'), {
-  type:'bar',
-  data:{ labels:I.map(function(r){ return short(r.team); }),
-    datasets:[
-      { label:'매입ㆍ유도', data:I.map(function(r){ return nz(r.secured); }), backgroundColor:C.ink,  borderRadius:3 },
-      { label:'입고',       data:I.map(function(r){ return nz(r.inbound); }), backgroundColor:C.ok,   borderRadius:3 },
-      { label:'성능',       data:I.map(function(r){ return nz(r.perf);    }), backgroundColor:C.base, borderRadius:3 } ] },
-  options:{ plugins:{ legend:{position:'bottom'},
-      title:{ display:true, text:'팀별 확보 → 입고 → 성능 (대)', color:C.muted, align:'start' } },
-    scales:{ y:{ beginAtZero:true, grid:{color:C.line} }, x:{ grid:{display:false} } } }
-});
-
-/* 정산ㆍ반출 누적률 */
-new Chart(cv('ch-auc'), {
+/* 3. 정산·반출 누적 */
+new Chart(cv('c3'),{
   type:'line',
-  data:{ labels:['D-Day','D+1','D+2','D+3','D+4'],
-    datasets:[
-      { label:'정산률 (누적)', data:sC.map(function(v){ return v===null?null:+(v/A.won*100).toFixed(1); }),
-        borderColor:C.ok, backgroundColor:'rgba(14,124,102,.10)', fill:true, tension:.3, pointRadius:4 },
-      { label:'반출률 (누적)', data:rC.map(function(v){ return v===null?null:+(v/A.won*100).toFixed(1); }),
-        borderColor:C.base, backgroundColor:'rgba(31,111,235,.08)', fill:true, tension:.3, pointRadius:4 } ] },
-  options:{ plugins:{ legend:{position:'bottom'},
-      title:{ display:true, text:'낙찰 '+ko(A.won)+'대 대비 누적 진행률', color:C.muted, align:'start' },
-      tooltip:{ callbacks:{ label:function(c){ return c.dataset.label+' '+c.parsed.y+'%'; } } } },
-    scales:{ y:{ beginAtZero:true, max:100, ticks:{ callback:function(v){ return v+'%'; } }, grid:{color:C.line} },
-             x:{ grid:{display:false} } } }
+  data:{labels:L,datasets:[
+    {label:'정산률',data:sC.map(v=>v==null?null:+(v/A.won*100).toFixed(1)),
+     borderColor:C.ok,backgroundColor:'rgba(14,124,102,.10)',fill:true,tension:.3,pointRadius:4},
+    {label:'반출률',data:rC.map(v=>v==null?null:+(v/A.won*100).toFixed(1)),
+     borderColor:C.base,backgroundColor:'rgba(31,111,235,.08)',fill:true,tension:.3,pointRadius:4}]},
+  options:{plugins:{legend:{position:'bottom'},
+      tooltip:{callbacks:{label:c=>c.dataset.label+' '+c.parsed.y+'%'}}},
+    scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'},grid:{color:C.line}},
+            x:{grid:{display:false}}}}
 });
 })();
 </script>
