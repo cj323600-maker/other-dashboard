@@ -610,7 +610,7 @@ function todayBoard(){
   const gpNote = r => r.gpAch>=1-1e-9 ? `매출익 목표 초과(${Math.round(r.gpAch*100)}%)` : `매출익 목표 미달(${Math.round(r.gpAch*100)}%)`;
   const teamNotes = `<ul class="hnotes">
     <li><span class="pos">잘한 팀 ${best.t.name}</span> · 매입·유도 ${cm(best.cAcq)}/${cm(best.cAcqT)}대(${Math.round(best.a*100)}%)로 누적 목표 초과 · 전주 경매 확정 실적 기준 ${gpNote(best)}</li>
-    ${worst.a<1-1e-9 ? `<li><span class="neg">못한 팀 ${worst.t.name}</span> · 전주 경매 확정 실적으로 ${gpNote(worst)}이나, 매입·유도 대수는 누적 목표 대비 ${Math.round(worst.a*100)}% 수준(${cm(worst.cAcq)}/${cm(worst.cAcqT)}대). 원인·대책 담당 입력 필요</li>` : ''}
+    ${worst.a<1-1e-9 ? `<li><span class="neg">못한 팀 ${worst.t.name}</span> · 전주 경매 확정 실적으로 ${gpNote(worst)}이나, 매입·유도 대수는 누적 목표 대비 ${Math.round(worst.a*100)}% 수준(${cm(worst.cAcq)}/${cm(worst.cAcqT)}대)</li>` : ''}
   </ul>`;
   const issues = (sum(DATA.auction.settlement)>0 ? `<li>${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매 처리 — 낙찰 ${cm(DATA.auction.won)}대 · 정산 ${pct0(sum(DATA.auction.settlement)/DATA.auction.won)} · 반출 ${pct0(sum(DATA.auction.release)/DATA.auction.won)}${DATA.auction.issue?' · '+DATA.auction.issue:''}</li>` : `<li><span class="pos">${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매</span> · 낙찰대수 <b>${cm(DATA.auction.won)}대</b> · 정산·반출은 D+1부터 집계</li>`);
   return `<section class="sec today">
