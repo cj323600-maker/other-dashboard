@@ -104,6 +104,8 @@ h2,h3,p{margin:0}
 .legend .lg{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:3px} .legend .lg.g{background:#2563eb} .legend .lg.r{background:#d13a3a}
 .legend .sep{color:#c5cfd8;margin:0 4px}
 .sec.issues{padding:12px 14px 14px}
+.hnotes{margin:6px 0 10px 18px;padding:0;font-size:12px;line-height:1.7;color:var(--ink)}
+@media(max-width:620px){.hnotes{font-size:11px;margin-left:14px}}
 .sec.issues ul{margin:6px 0 0 18px;padding:0;font-size:12.5px;line-height:1.7;color:var(--ink)}
 @media(max-width:620px){
   .headline{font-size:13px;padding:10px 12px}
@@ -605,11 +607,15 @@ function todayBoard(){
       <td class="num ${allOk?'pos':'neg'}"><b>${Math.round(all.ach*100)}%</b></td>
       <td class="num ref">${M(all.rev)}<i> / ${M(all.revT)}</i></td><td class="num ref">${cm(all.acq)}<i> / ${cm(all.acqT)}</i></td></tr>`;
   const headline = `<div class="headline">영업일 ${E}일차 예상 매출이익 <b>${M(all.gp)}백만</b> (${E}일 누적 목표 ${M(all.gpT)}백만, ${sgn(all.gp-all.gpT)}) · 잘한 팀 <span class="pos">${best.t.name} 매입 ${Math.round(best.a*100)}%</span> ${sgnD(best.cAcq-best.cAcqT)}${worst.a<1-1e-9 ? ` · 못한 팀 <span class="neg">${worst.t.name} 매입 ${Math.round(worst.a*100)}%</span> ${sgnD(worst.cAcq-worst.cAcqT)}` : ''}</div>`;
-  const under = rows.filter(r=>r.gpAch<1-1e-9);
-  const issues = (under.length ? under.map(r=>`<li><span class="neg">${r.t.name} ${Math.round(r.gpAch*100)}%</span> · 예상 매출익 ${M(r.cGp)}백만(${E}일 누적 목표 ${M(r.cGpT)}백만) · 매입·유도 ${cm(r.cAcq)}/${cm(r.cAcqT)}대. 원인·대책 담당 입력 필요</li>`) : [(()=>{ const top=[...rows].sort((x,y)=>y.gpAch-x.gpAch)[0]; return `<li><span class="pos">전 팀 매출익 누적 목표 초과 달성</span> · 그중 <span class="pos">${top.t.name}</span>이 매출익 목표 대비 큰 폭으로 초과 달성</li>`; })()])
-    .concat([(sum(DATA.auction.settlement)>0 ? `<li>${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매 처리 — 낙찰 ${cm(DATA.auction.won)}대 · 정산 ${pct0(sum(DATA.auction.settlement)/DATA.auction.won)} · 반출 ${pct0(sum(DATA.auction.release)/DATA.auction.won)}${DATA.auction.issue?' · '+DATA.auction.issue:''}</li>` : `<li><span class="pos">${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매</span> · 낙찰대수 <b>${cm(DATA.auction.won)}대</b> · 정산·반출은 D+1부터 집계</li>`)]).join('');
+  const gpNote = r => r.gpAch>=1-1e-9 ? `매출익 목표 초과(${Math.round(r.gpAch*100)}%)` : `매출익 목표 미달(${Math.round(r.gpAch*100)}%)`;
+  const teamNotes = `<ul class="hnotes">
+    <li><span class="pos">잘한 팀 ${best.t.name}</span> · 매입·유도 ${cm(best.cAcq)}/${cm(best.cAcqT)}대(${Math.round(best.a*100)}%)로 누적 목표 초과 · 전주 경매 확정 실적 기준 ${gpNote(best)}</li>
+    ${worst.a<1-1e-9 ? `<li><span class="neg">못한 팀 ${worst.t.name}</span> · 전주 경매 확정 실적으로 ${gpNote(worst)}이나, 매입·유도 대수는 누적 목표 대비 ${Math.round(worst.a*100)}% 수준(${cm(worst.cAcq)}/${cm(worst.cAcqT)}대). 원인·대책 담당 입력 필요</li>` : ''}
+  </ul>`;
+  const issues = (sum(DATA.auction.settlement)>0 ? `<li>${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매 처리 — 낙찰 ${cm(DATA.auction.won)}대 · 정산 ${pct0(sum(DATA.auction.settlement)/DATA.auction.won)} · 반출 ${pct0(sum(DATA.auction.release)/DATA.auction.won)}${DATA.auction.issue?' · '+DATA.auction.issue:''}</li>` : `<li><span class="pos">${DATA.auction.auctionDate.slice(5).replace('-','/')} 경매</span> · 낙찰대수 <b>${cm(DATA.auction.won)}대</b> · 정산·반출은 D+1부터 집계</li>`);
   return `<section class="sec today">
     ${headline}
+    ${teamNotes}
     <div class="stitle"><h2>팀별 성적표 — 예상 매출이익 기준</h2><span class="sub">영업일 ${E}/${N}일 · 순위 = 매출이익 누적 목표(${E}일치) 달성률 · 막대 = 매출이익 금액 · 세로선 = 해당 팀 누적 목표 · 매출·대수는 참고</span></div>
     <div class="tblWrap"><table class="todayTbl"><thead><tr>
       <th>순위</th><th>팀</th><th>예상 매출이익 대비 누적 목표</th><th>${E}일차 예상<br>매출익(백만)</th><th class="muth">누적 목표<br>(백만)</th><th>차이<br>(백만)</th><th>달성률</th><th class="refh">예상 매출<br>(실적 / 목표) (백만)</th><th class="refh">매입·유도<br>(실적 / 목표) (대)</th>
