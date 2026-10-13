@@ -614,7 +614,7 @@ function acquisitionPart(){
     <div class="stat"><div class="t">매입·유도 총계 (월 누적)</div><div class="v">${cm(ownA+indA)}<em>대</em></div><div class="t" style="margin-top:3px;">당일 ${cm(ownD+indD)} · 목표 ${cm(ownT+indT)}</div></div>
   </div>`;
   const inner = `<section class="sec"><div class="stitle"><h2>Part 1. 매입·유도 대수 (월 누적)</h2><span class="sub">법인영업 · 플랫폼매입 · 출품영업 · 경매운영</span><span class="unit">표 최소화 · 팀 카드형</span></div>${strip}<div class="partGrid">${cards}</div></section>`;
-  return foldSection('Part 1. 매입·유도 대수','법인영업 · 플랫폼매입 · 출품영업 · 경매운영','운영',inner,false);
+  return foldSection('Part 1. 매입·유도 대수 (월 누적)','법인영업 · 플랫폼매입 · 출품영업 · 경매운영','운영',inner,false);
 }
 
 function yardPart(){
